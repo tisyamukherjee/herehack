@@ -100,8 +100,8 @@ for file_name in os.listdir(folder_path):
 
         # check if upper and lower row have same id 
         if not lower_row.traceid == upper_row.traceid:
-            upper += 5
-            lower += 5
+            upper += 10
+            lower += 10
             continue 
 
         # checking for large gaps in timestamps 
@@ -110,27 +110,27 @@ for file_name in os.listdir(folder_path):
         delta = (upper_time - lower_time).total_seconds()
 
         if delta > time:
-            lower += 5
-            upper += 5
+            lower += 10
+            upper += 10
             continue
 
         # check in chunks of time if direction is changing 
         elif abs(lower_row.heading - upper_row.heading) < 180:
-            lower += 5
-            upper += 5
+            lower += 10
+            upper += 10
             continue
         
         # check if distance traveled is greater than radius in meters
         elif abs(haversine(lower_row.latitude, lower_row.longitude, upper_row.latitude, upper_row.longitude)) > 37.5:
-            lower += 5
-            upper += 5
+            lower += 10
+            upper += 10
             continue
         
         else:
             result.append(lower_row)
             result.append(upper_row)
-        lower += 5
-        upper += 5
+        lower += 10
+        upper += 10
     # final data frame after cleaning data 
     df_final = pd.DataFrame(result, columns=['heading', 'latitude', 'longitude', 'traceid', 'sampledate', 'speed'])
     # dropping all columns except longitude and latitude for easy display 
